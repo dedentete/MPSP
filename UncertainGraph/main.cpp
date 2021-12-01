@@ -85,7 +85,7 @@ Path Algorithm2(vector<vector<Edge>>& G, int s, int t) {
         }
         int mn = INT_MAX;
         for (int v = 0; v < V; v++) {
-            if (vis.count(v)) continue; 
+            if (vis.count(v)) continue;
             if (P[v].weight < mn) {
                 u = v;
                 mn = P[v].weight;
@@ -168,6 +168,7 @@ vector<pair<double, Path>> Algorithm1(vector<vector<Edge>>& G, int s, int t,
         }
     }
     if (CP.empty()) return vector<pair<double, Path>>();
+    cout << "size        : " << CP.size() << endl;
     vector<Path> LP;
     for (auto P : CP) {
         LP.emplace_back(P);
@@ -187,7 +188,7 @@ int main(int argc, char const* argv[]) {
     int V, E;
     cin >> V >> E;
     vector<vector<Edge>> G(V);
-    for (int i = 0; i < E; i++) {
+    for (int e = 0; e < E; e++) {
         int from, to, weight;
         double probability;
         cin >> from >> to >> weight >> probability;

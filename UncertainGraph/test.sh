@@ -1,2 +1,2 @@
 g++ -o main.out main.cpp
-./main.out 20 1000 < input/a.txt
+./main.out 10000 10000 < input/a.txt

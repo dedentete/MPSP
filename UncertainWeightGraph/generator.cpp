@@ -4,8 +4,6 @@
 #include <vector>
 using namespace std;
 
-constexpr int MAX = 10;
-
 int main(int argc, char const* argv[]) {
     int V = atoi(argv[1]), E = atoi(argv[2]), N = atoi(argv[3]);
     cout << V << " " << E << " " << N << endl;
@@ -24,14 +22,9 @@ int main(int argc, char const* argv[]) {
             p.emplace_back((rand() % (int)1e9) / 1e9);
         }
         sort(p.begin(), p.end());
-        vector<int> w(N);
-        set<int> W;
+        vector<double> w(N);
         for (int i = 0; i < N; i++) {
-            w[i] = rand() % MAX + 1;
-            while (W.count(w[i])) {
-                w[i] = rand() % MAX + 1;
-            }
-            W.emplace(w[i]);
+            w[i] = (rand() % (int)1e9) / 1e9;
         }
         sort(w.begin(), w.end());
         cout << u << " " << v << endl;
