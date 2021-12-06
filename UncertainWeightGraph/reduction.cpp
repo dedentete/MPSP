@@ -22,5 +22,8 @@ int main() {
             sum += wp[i].second;
         }
     }
+    int s, t;
+    cin >> s >> t;
+    cout << s << " " << t << endl;
     return 0;
 }

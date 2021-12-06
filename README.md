@@ -2,4 +2,4 @@
  
 ## UncertainGraph
 
-## Weight-UncertainGraph
+## UncertainWeightGraph

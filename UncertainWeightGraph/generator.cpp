@@ -5,6 +5,7 @@
 using namespace std;
 
 int main(int argc, char const* argv[]) {
+    srand(time(NULL));
     int V = atoi(argv[1]), E = atoi(argv[2]), N = atoi(argv[3]);
     cout << V << " " << E << " " << N << endl;
     set<pair<int, int>> edged;
@@ -32,5 +33,6 @@ int main(int argc, char const* argv[]) {
             cout << w[i] << " " << p[i + 1] - p[i] << endl;
         }
     }
+    cout << 0 << " " << V - 1 << endl;
     return 0;
 }

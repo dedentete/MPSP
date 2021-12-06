@@ -1,15 +1,15 @@
 #include <algorithm>
-#include <climits>
+#include <cfloat>
 #include <iostream>
 #include <set>
 #include <vector>
 using namespace std;
 
 struct Edge {
-    int from, to, weight;
-    double probability;
+    int from, to;
+    double weight, probability;
 
-    Edge(int from, int to, int weight, double probability)
+    Edge(int from, int to, double weight, double probability)
         : from(from), to(to), weight(weight), probability(probability) {}
 };
 
@@ -20,10 +20,9 @@ bool operator==(const Edge& lhs, const Edge& rhs) {
 
 struct Path {
     vector<Edge> edges;
-    int weight;
-    double probability;
+    double weight, probability;
 
-    Path() : weight(INT_MAX), probability(1) {}
+    Path() : weight(DBL_MAX), probability(1) {}
 
     void print() {
         for (int i = 0; i < (int)edges.size(); i++) {
@@ -83,7 +82,7 @@ Path Algorithm2(vector<vector<Edge>>& G, int s, int t) {
                 }
             }
         }
-        int mn = INT_MAX;
+        double mn = DBL_MAX;
         for (int v = 0; v < V; v++) {
             if (vis.count(v)) continue;
             if (P[v].weight < mn) {
@@ -91,7 +90,7 @@ Path Algorithm2(vector<vector<Edge>>& G, int s, int t) {
                 mn = P[v].weight;
             }
         }
-        if (mn == INT_MAX) break;
+        if (mn == DBL_MAX) break;
         vis.emplace(u);
     } while (u != t);
     return P[t];
@@ -189,8 +188,8 @@ int main(int argc, char const* argv[]) {
     cin >> V >> E;
     vector<vector<Edge>> G(V);
     for (int e = 0; e < E; e++) {
-        int from, to, weight;
-        double probability;
+        int from, to;
+        double weight, probability;
         cin >> from >> to >> weight >> probability;
         G[from].emplace_back(from, to, weight, probability);
     }

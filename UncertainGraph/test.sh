@@ -1,2 +1,2 @@
 g++ -o main.out main.cpp
-./main.out 10000 10000 < input/a.txt
+time ./main.out 200 1000 < input/0000.txt

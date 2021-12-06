@@ -1,2 +1,2 @@
-g++ -o bruteforce.out bruteforce.cpp
-time ./bruteforce.out < input/a.txt
+g++ -o main.out main.cpp
+time ./main.out 10000 < input/0000.txt
