@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cfloat>
 #include <iostream>
+#include <map>
 #include <set>
 #include <vector>
 using namespace std;
@@ -194,11 +195,38 @@ int main(int argc, char const* argv[]) {
     }
     int s, t;
     cin >> s >> t;
+    int v;
+    cin >> v;
     auto ans = Algorithm1(G, s, t, m, N);
     for (auto ans : ans) {
         cout << "probability : " << ans.first << endl;
         cout << "path        : ";
         ans.second.print();
+    }
+    cout << "------------------------------------------------------------------"
+            "----------------------------------"
+         << endl;
+    map<vector<int>, double> cnt;
+    for (auto ans : ans) {
+        vector<int> t;
+        for (int i = 0; i < (int)ans.second.edges.size(); i++) {
+            if (!i) t.emplace_back(ans.second.edges[i].from);
+            t.emplace_back(ans.second.edges[i].to);
+        }
+        vector<int> vertexes;
+        for (int t : t) {
+            if (t < v) vertexes.emplace_back(t);
+        }
+        cnt[vertexes] += ans.first;
+    }
+    for (auto p : cnt) {
+        cout << "probability : " << p.second << endl;
+        cout << "path        : ";
+        for (int i = 0; i < (int)p.first.size(); i++) {
+            if (i) cout << " -> ";
+            cout << p.first[i];
+        }
+        cout << endl;
     }
     return 0;
 }

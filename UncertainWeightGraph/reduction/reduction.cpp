@@ -25,5 +25,6 @@ int main() {
     int s, t;
     cin >> s >> t;
     cout << s << " " << t << endl;
+    cout << V << endl;
     return 0;
 }
