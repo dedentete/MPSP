@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cfloat>
 #include <iostream>
 #include <map>
@@ -7,18 +8,18 @@ using namespace std;
 
 struct Edge {
     int from, to;
-    vector<pair<double, double>> weights;
+    vector<double> weights, probabilities;
 
-    Edge(int from, int to, vector<pair<double, double>> weights)
-        : from(from), to(to), weights(weights) {}
+    Edge(int from, int to, vector<double> weights, vector<double> probabilities)
+        : from(from), to(to), weights(weights), probabilities(probabilities) {}
 
     double weight() {
         double r = rand() % (int)1e9 / 1e9;
-        for (auto p : weights) {
-            r -= p.second;
-            if (r < 0) return p.first;
+        for (int i = 0; i < (int)weights.size(); i++) {
+            r -= probabilities[i];
+            if (r < 0) return weights[i];
         }
-        return weights.back().first;
+        return -1;
     }
 };
 
@@ -27,7 +28,7 @@ struct Path {
 
     void print() const {
         for (int i = 0; i < (int)vertexes.size(); i++) {
-            if (i) cout << " -> ";
+            if (i) cout << " ";
             cout << vertexes[i];
         }
         cout << endl;
@@ -43,13 +44,13 @@ struct Path {
         res += v;
         return res;
     }
+
+    bool operator<(const Path& p) const {
+        return vertexes < p.vertexes;
+    }
 };
 
-bool operator<(const Path& lhs, const Path& rhs) {
-    return lhs.vertexes < rhs.vertexes;
-}
-
-Path Dijkstra(vector<vector<Edge>>& G, int& s, int& t) {
+Path DijkstraMC(vector<vector<Edge>>& G, int s, int t) {
     int V = G.size();
     int u = s;
     set<int> vis;
@@ -64,7 +65,7 @@ Path Dijkstra(vector<vector<Edge>>& G, int& s, int& t) {
             if (vis.count(v)) continue;
             double w = edge.weight();
             if (weight[v] > weight[u] + w) {
-                P[v] = P[u] + edge.to;
+                P[v] = P[u] + v;
                 weight[v] = weight[u] + w;
             }
         }
@@ -82,36 +83,42 @@ Path Dijkstra(vector<vector<Edge>>& G, int& s, int& t) {
     return P[t];
 }
 
-map<Path, double> solve(vector<vector<Edge>>& G, int& s, int& t, int& m) {
+vector<pair<double, Path>> solve(vector<vector<Edge>>& G, int s, int t,
+                                 int number_of_DijkstraMC) {
     map<Path, double> cnt;
-    for (int i = 0; i < m; i++) {
-        auto P = Dijkstra(G, s, t);
-        cnt[P] += 1.0 / m;
+    for (int i = 0; i < number_of_DijkstraMC; i++) {
+        auto P = DijkstraMC(G, s, t);
+        cnt[P] += 1.0 / number_of_DijkstraMC;
     }
-    return cnt;
+    vector<pair<double, Path>> res;
+    for (auto p : cnt) {
+        res.emplace_back(p.second, p.first);
+    }
+    sort(res.begin(), res.end());
+    reverse(res.begin(), res.end());
+    return res;
 }
 
 int main(int argc, char const* argv[]) {
-    int m = atoi(argv[1]);
+    int number_of_DijkstraMC = atoi(argv[1]);
     int V, E, N;
     cin >> V >> E >> N;
     vector<vector<Edge>> G(V);
     for (int e = 0; e < E; e++) {
         int from, to;
         cin >> from >> to;
-        vector<pair<double, double>> weights(N);
+        vector<double> weights(N), probabilities(N);
         for (int i = 0; i < N; i++) {
-            cin >> weights[i].first >> weights[i].second;
+            cin >> weights[i] >> probabilities[i];
         }
-        G[from].emplace_back(from, to, weights);
+        G[from].emplace_back(from, to, weights, probabilities);
     }
     int s, t;
     cin >> s >> t;
-    auto cnt = solve(G, s, t, m);
-    for (auto p : cnt) {
-        cout << "probability : " << p.second << endl;
-        cout << "path        : ";
-        p.first.print();
+    auto ans = solve(G, s, t, number_of_DijkstraMC);
+    for (auto ans : ans) {
+        ans.second.print();
+        cout << ans.first << endl;
     }
     return 0;
 }

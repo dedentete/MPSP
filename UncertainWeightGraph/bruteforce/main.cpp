@@ -8,10 +8,10 @@ using namespace std;
 
 struct Edge {
     int from, to;
-    vector<pair<double, double>> weights;
+    vector<double> weights, probabilities;
 
-    Edge(int from, int to, vector<pair<double, double>> weights)
-        : from(from), to(to), weights(weights) {}
+    Edge(int from, int to, vector<double> weights, vector<double> probabilities)
+        : from(from), to(to), weights(weights), probabilities(probabilities) {}
 };
 
 struct Path {
@@ -23,7 +23,7 @@ struct Path {
 
     void print() const {
         for (int i = 0; i < (int)vertexes.size(); i++) {
-            if (i) cout << " -> ";
+            if (i) cout << " ";
             cout << vertexes[i];
         }
         cout << endl;
@@ -33,32 +33,32 @@ struct Path {
         vertexes.emplace_back(v);
         return *this;
     }
+
+    bool operator<(const Path &p) const {
+        return vertexes < p.vertexes;
+    }
 };
 
-bool operator<(const Path &lhs, const Path &rhs) {
-    return lhs.vertexes < rhs.vertexes;
-}
-
-Path Dijkstra(vector<vector<pair<int, double>>> &g, int &s, int &t) {
+Path Dijkstra(vector<vector<pair<int, double>>> &g, int s, int t) {
     using P = pair<double, int>;
     int V = g.size();
-    vector<double> dist(V, DBL_MAX);
+    vector<double> weight(V, DBL_MAX);
     priority_queue<P, vector<P>, greater<P>> que;
-    dist[s] = 0;
-    que.emplace(0, s);
     vector<int> prev(V, -1);
+    weight[s] = 0;
+    que.emplace(0, s);
     while (!que.empty()) {
         P p = que.top();
         que.pop();
         int v = p.second;
-        if (dist[v] < p.first) continue;
+        if (weight[v] < p.first) continue;
         for (int i = 0; i < (int)g[v].size(); i++) {
             int to = g[v][i].first;
             double cost = g[v][i].second;
-            if (dist[to] > dist[v] + cost) {
-                dist[to] = dist[v] + cost;
+            if (weight[to] > weight[v] + cost) {
+                weight[to] = weight[v] + cost;
                 prev[to] = v;
-                que.emplace(dist[to], to);
+                que.emplace(weight[to], to);
             }
         }
     }
@@ -72,7 +72,7 @@ Path Dijkstra(vector<vector<pair<int, double>>> &g, int &s, int &t) {
     return res;
 }
 
-void dfs(int depth, double probability, vector<Edge> &edges, int &s, int &t,
+void dfs(int depth, double probability, vector<Edge> &edges, int s, int t,
          vector<vector<pair<int, double>>> &g, map<Path, double> &cnt) {
     int E = edges.size(), N = edges[depth].weights.size();
     if (depth == E) {
@@ -81,19 +81,25 @@ void dfs(int depth, double probability, vector<Edge> &edges, int &s, int &t,
     }
     for (int i = 0; i < N; i++) {
         g[edges[depth].from].emplace_back(edges[depth].to,
-                                          edges[depth].weights[i].first);
-        dfs(depth + 1, probability * edges[depth].weights[i].second, edges, s,
+                                          edges[depth].weights[i]);
+        dfs(depth + 1, probability * edges[depth].probabilities[i], edges, s,
             t, g, cnt);
         g[edges[depth].from].pop_back();
     }
 }
 
-map<Path, double> solve(vector<Edge> &edges, int &s, int &t, int &V) {
+vector<pair<double, Path>> solve(vector<Edge> &edges, int s, int t, int V) {
     vector<vector<pair<int, double>>> g;
     g.resize(V);
     map<Path, double> cnt;
     dfs(0, 1, edges, s, t, g, cnt);
-    return cnt;
+    vector<pair<double, Path>> res;
+    for (auto p : cnt) {
+        res.emplace_back(p.second, p.first);
+    }
+    sort(res.begin(), res.end());
+    reverse(res.begin(), res.end());
+    return res;
 }
 
 int main() {
@@ -103,19 +109,18 @@ int main() {
     for (int e = 0; e < E; e++) {
         int from, to;
         cin >> from >> to;
-        vector<pair<double, double>> weights(N);
+        vector<double> weights(N), probabilities(N);
         for (int i = 0; i < N; i++) {
-            cin >> weights[i].first >> weights[i].second;
+            cin >> weights[i] >> probabilities[i];
         }
-        edges.emplace_back(from, to, weights);
+        edges.emplace_back(from, to, weights, probabilities);
     }
     int s, t;
     cin >> s >> t;
-    auto cnt = solve(edges, s, t, V);
-    for (auto p : cnt) {
-        cout << "probability : " << p.second << endl;
-        cout << "path        : ";
-        p.first.print();
+    auto ans = solve(edges, s, t, V);
+    for (auto ans : ans) {
+        ans.second.print();
+        cout << ans.first << endl;
     }
     return 0;
 }

@@ -5,8 +5,8 @@
 using namespace std;
 
 int main(int argc, char const* argv[]) {
-    srand(time(NULL));
-    int V = atoi(argv[1]), E = atoi(argv[2]), N = atoi(argv[3]);
+    int V = atoi(argv[1]), E = atoi(argv[2]), N = atoi(argv[3]), seed = atoi(argv[4]);
+    srand(seed);
     cout << V << " " << E << " " << N << endl;
     set<pair<int, int>> edged;
     for (int e = 0; e < E; e++) {
@@ -24,8 +24,12 @@ int main(int argc, char const* argv[]) {
         }
         sort(p.begin(), p.end());
         vector<double> w(N);
+        set<double> W;
         for (int i = 0; i < N; i++) {
             w[i] = (rand() % (int)1e9) / 1e9;
+            while (W.count(w[i])) {
+                w[i] = (rand() % (int)1e9) / 1e9;
+            }
         }
         sort(w.begin(), w.end());
         cout << u << " " << v << endl;

@@ -1,3 +1,3 @@
 g++ -o reduction.out reduction.cpp
 g++ -o main.out main.cpp
-./reduction.out < ../input/0000.txt | ./main.out 200 10000
+./reduction.out < ../testcases/0045.txt | time ./main.out 20 1000

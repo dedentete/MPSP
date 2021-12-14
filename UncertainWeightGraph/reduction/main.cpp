@@ -12,26 +12,17 @@ struct Edge {
 
     Edge(int from, int to, double weight, double probability)
         : from(from), to(to), weight(weight), probability(probability) {}
-};
 
-bool operator==(const Edge& lhs, const Edge& rhs) {
-    return lhs.from == rhs.from && lhs.to == rhs.to &&
-           lhs.weight == rhs.weight && lhs.probability == rhs.probability;
-}
+    bool operator==(const Edge& e) const {
+        return from == e.from && to == e.to && weight == e.weight && probability == e.probability;
+    }
+};
 
 struct Path {
     vector<Edge> edges;
     double weight, probability;
 
     Path() : weight(DBL_MAX), probability(1) {}
-
-    void print() {
-        for (int i = 0; i < (int)edges.size(); i++) {
-            if (!i) cout << edges[i].from;
-            cout << " -> " << edges[i].to;
-        }
-        cout << endl;
-    }
 
     Path operator+=(Edge e) {
         if (edges.empty()) weight = 0;
@@ -198,14 +189,6 @@ int main(int argc, char const* argv[]) {
     int v;
     cin >> v;
     auto ans = Algorithm1(G, s, t, m, N);
-    for (auto ans : ans) {
-        cout << "probability : " << ans.first << endl;
-        cout << "path        : ";
-        ans.second.print();
-    }
-    cout << "------------------------------------------------------------------"
-            "----------------------------------"
-         << endl;
     map<vector<int>, double> cnt;
     for (auto ans : ans) {
         vector<int> t;
@@ -219,14 +202,19 @@ int main(int argc, char const* argv[]) {
         }
         cnt[vertexes] += ans.first;
     }
-    for (auto p : cnt) {
-        cout << "probability : " << p.second << endl;
-        cout << "path        : ";
-        for (int i = 0; i < (int)p.first.size(); i++) {
-            if (i) cout << " -> ";
-            cout << p.first[i];
+    vector<pair<double, vector<int>>> sum;
+    for(auto p : cnt) {
+        sum.emplace_back(p.second, p.first);
+    }
+    sort(sum.begin(), sum.end());
+    reverse(sum.begin(), sum.end());
+    for (auto sum : sum) {
+        for (int i = 0; i < (int)sum.second.size(); i++) {
+            if (i) cout << " ";
+            cout << sum.second[i];
         }
         cout << endl;
+        cout << sum.first << endl;
     }
     return 0;
 }
