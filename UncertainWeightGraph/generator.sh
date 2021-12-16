@@ -4,3 +4,7 @@ do
     t=$(printf "%04d" $i)
     ./generator.out 10 20 2 $i > testcases/$t.txt
 done
+cd bruteforce
+sh solve.sh $1
+cd ..
+python rename.py

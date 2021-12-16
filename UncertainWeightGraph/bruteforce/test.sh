@@ -1,2 +1,2 @@
 g++ -o main.out main.cpp
-time ./main.out < ../testcases/test.txt
+time ./main.out < ../testcases/0000.txt

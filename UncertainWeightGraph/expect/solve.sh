@@ -1,6 +1,7 @@
-g++ -o main.out main.cpp
-for i in `seq 1 $1`
+n=$(($1-1))
+for i in `seq 0 $n`
 do
     t=$(printf "%04d" $i)
-    time ./main.out < ../testcases/$t.txt > output/$t.txt
+    ./main.out < ../testcases/$t.txt > output/$t.txt &
 done
+wait
