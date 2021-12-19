@@ -8,11 +8,11 @@
 using namespace std;
 
 struct Edge {
+    int from, to;
     vector<double> weights, probabilities;
 
-    Edge() {}
-    Edge(vector<double> weights, vector<double> probabilities)
-        : weights(weights), probabilities(probabilities) {}
+    Edge(int from, int to, vector<double> weights, vector<double> probabilities)
+        : from(from), to(to), weights(weights), probabilities(probabilities) {}
 
     bool empty() {
         return weights.empty();
@@ -81,10 +81,10 @@ Path DijkstraMC(vector<vector<Edge>>& G, int s, int t) {
     vector<double> weight(V, DBL_MAX);
     weight[s] = 0;
     do {
-        for (int v = 0; v < V; v++) {
-            if (G[u][v].empty()) continue;
+        for (auto edge : G[u]) {
+            int v = edge.to;
             if (vis.count(v)) continue;
-            double w = G[u][v].weight();
+            double w = edge.weight();
             if (weight[v] > weight[u] + w) {
                 P[v] = P[u] + v;
                 weight[v] = weight[u] + w;
@@ -108,29 +108,36 @@ vector<double> PathSampling(vector<vector<Edge>>& G, Path& P) {
     vector<double> res;
     for (int i = 0; i + 1 < (int)P.size(); i++) {
         int u = P[i], v = P[i + 1];
-        res.emplace_back(G[u][v].weight());
+        for (auto edge : G[u]) {
+            if (edge.to == v) {
+                res.emplace_back(edge.weight());
+            }
+        }
     }
     return res;
 }
 
-vector<vector<double>> GraphSampling(vector<vector<Edge>>& G, Path& P,
-                                     vector<double> weights) {
+vector<vector<pair<int, double>>> GraphSampling(vector<vector<Edge>>& G,
+                                                Path& P,
+                                                vector<double> weights) {
     int V = G.size();
-    vector<vector<double>> g(V, vector<double>(V, -1));
+    vector<vector<pair<int, double>>> g(V);
+    set<pair<int, int>> fixed;
     for (int i = 0; i + 1 < (int)P.size(); i++) {
         int u = P[i], v = P[i + 1];
-        g[u][v] = weights[i];
+        g[u].emplace_back(v, weights[i]);
+        fixed.emplace(u, v);
     }
-    for (int u = 0; u < V; u++) {
-        for (int v = 0; v < V; v++) {
-            if (g[u][v] != -1) continue;
-            g[u][v] = G[u][v].weight();
+    for (int v = 0; v < V; v++) {
+        for (auto edge : G[v]) {
+            if (fixed.count(pair<int, int>(v, edge.to))) continue;
+            g[v].emplace_back(edge.to, edge.weight());
         }
     }
     return g;
 }
 
-Path Dijkstra(vector<vector<double>>& g, int s, int t) {
+Path Dijkstra(vector<vector<pair<int, double>>>& g, int s, int t) {
     using P = pair<double, int>;
     int V = g.size();
     vector<double> weight(V, DBL_MAX);
@@ -143,10 +150,10 @@ Path Dijkstra(vector<vector<double>>& g, int s, int t) {
         que.pop();
         int v = p.second;
         if (weight[v] < p.first) continue;
-        for (int to = 0; to < V; to++) {
-            if (g[v][to] == -1) continue;
-            if (weight[to] > weight[v] + g[v][to]) {
-                weight[to] = weight[v] + g[v][to];
+        for (auto p : g[v]) {
+            int to = p.first;
+            if (weight[to] > weight[v] + p.second) {
+                weight[to] = weight[v] + p.second;
                 prev[to] = v;
                 que.emplace(weight[to], to);
             }
@@ -198,7 +205,7 @@ int main(int argc, char const* argv[]) {
     int m = atoi(argv[1]), N_P = atoi(argv[2]), N_G = atoi(argv[3]);
     int V, E, N;
     cin >> V >> E >> N;
-    vector<vector<Edge>> G(V, vector<Edge>(V));
+    vector<vector<Edge>> G(V);
     for (int e = 0; e < E; e++) {
         int from, to;
         cin >> from >> to;
@@ -206,7 +213,7 @@ int main(int argc, char const* argv[]) {
         for (int i = 0; i < N; i++) {
             cin >> weights[i] >> probabilities[i];
         }
-        G[from][to] = Edge(weights, probabilities);
+        G[from].emplace_back(from, to, weights, probabilities);
     }
     int s, t;
     cin >> s >> t;

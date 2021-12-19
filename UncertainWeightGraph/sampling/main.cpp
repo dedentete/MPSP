@@ -19,7 +19,7 @@ struct Edge {
             r -= probabilities[i];
             if (r < 0) return weights[i];
         }
-        return -1;
+        return weights.back();
     }
 };
 
@@ -84,11 +84,11 @@ Path DijkstraMC(vector<vector<Edge>>& G, int s, int t) {
 }
 
 vector<pair<double, Path>> solve(vector<vector<Edge>>& G, int s, int t,
-                                 int number_of_DijkstraMC) {
+                                 int m) {
     map<Path, double> cnt;
-    for (int i = 0; i < number_of_DijkstraMC; i++) {
+    for (int i = 0; i < m; i++) {
         auto P = DijkstraMC(G, s, t);
-        cnt[P] += 1.0 / number_of_DijkstraMC;
+        cnt[P] += 1.0 / m;
     }
     vector<pair<double, Path>> res;
     for (auto p : cnt) {
@@ -100,7 +100,7 @@ vector<pair<double, Path>> solve(vector<vector<Edge>>& G, int s, int t,
 }
 
 int main(int argc, char const* argv[]) {
-    int number_of_DijkstraMC = atoi(argv[1]);
+    int m = atoi(argv[1]);
     int V, E, N;
     cin >> V >> E >> N;
     vector<vector<Edge>> G(V);
@@ -115,7 +115,7 @@ int main(int argc, char const* argv[]) {
     }
     int s, t;
     cin >> s >> t;
-    auto ans = solve(G, s, t, number_of_DijkstraMC);
+    auto ans = solve(G, s, t, m);
     for (auto ans : ans) {
         ans.second.print();
         cout << ans.first << endl;

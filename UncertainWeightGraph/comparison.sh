@@ -7,6 +7,14 @@ time sh solve.sh 1000 1000
 cd ..
 python count.py reduction
 cd sampling
+time sh solve.sh 1000 10
+cd ..
+python count.py sampling
+cd sampling
+time sh solve.sh 1000 100
+cd ..
+python count.py sampling
+cd sampling
 time sh solve.sh 1000 1000
 cd ..
 python count.py sampling
@@ -18,7 +26,3 @@ cd sampling
 time sh solve.sh 1000 100000
 cd ..
 python count.py sampling
-cd three-step-sampling
-time sh solve.sh 1000 1000 1000
-cd ..
-python count.py three-step-sampling

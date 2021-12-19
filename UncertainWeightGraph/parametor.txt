@@ -1,27 +1,48 @@
-43.76user 0.83system 0:02.87elapsed 1549%CPU (0avgtext+0avgdata 3860maxresident)k
-0inputs+8000outputs (0major+205597minor)pagefaults 0swaps
+3.93user 0.63system 0:00.44elapsed 1021%CPU (0avgtext+0avgdata 3860maxresident)k
+8544inputs+8000outputs (2major+204779minor)pagefaults 0swaps
+three-step-sampling : 943 / 1000
+21.27user 0.77system 0:01.43elapsed 1534%CPU (0avgtext+0avgdata 3848maxresident)k
+0inputs+8000outputs (0major+207514minor)pagefaults 0swaps
+three-step-sampling : 949 / 1000
+198.75user 0.57system 0:12.65elapsed 1575%CPU (0avgtext+0avgdata 3860maxresident)k
+0inputs+8000outputs (0major+202609minor)pagefaults 0swaps
+three-step-sampling : 949 / 1000
+1998.78user 0.77system 2:06.65elapsed 1578%CPU (0avgtext+0avgdata 3848maxresident)k
+0inputs+8000outputs (0major+207429minor)pagefaults 0swaps
+three-step-sampling : 954 / 1000
+6.40user 0.83system 0:00.60elapsed 1195%CPU (0avgtext+0avgdata 3864maxresident)k
+0inputs+8000outputs (0major+208011minor)pagefaults 0swaps
+three-step-sampling : 963 / 1000
+46.04user 1.09system 0:03.04elapsed 1547%CPU (0avgtext+0avgdata 3852maxresident)k
+0inputs+8000outputs (0major+205741minor)pagefaults 0swaps
 three-step-sampling : 979 / 1000
-418.69user 0.55system 0:26.70elapsed 1570%CPU (0avgtext+0avgdata 3876maxresident)k
-0inputs+8008outputs (0major+202788minor)pagefaults 0swaps
+457.36user 1.82system 0:29.14elapsed 1575%CPU (0avgtext+0avgdata 3848maxresident)k
+8inputs+8000outputs (0major+201843minor)pagefaults 0swaps
 three-step-sampling : 984 / 1000
-4244.62user 1.19system 4:29.52elapsed 1575%CPU (0avgtext+0avgdata 3864maxresident)k
-0inputs+8128outputs (0major+206156minor)pagefaults 0swaps
+4376.04user 2.61system 4:38.05elapsed 1574%CPU (0avgtext+0avgdata 3864maxresident)k
+8inputs+8000outputs (0major+205217minor)pagefaults 0swaps
 three-step-sampling : 983 / 1000
-63.19user 0.84system 0:04.14elapsed 1545%CPU (0avgtext+0avgdata 3872maxresident)k
-0inputs+8000outputs (0major+202661minor)pagefaults 0swaps
+13.27user 1.25system 0:01.01elapsed 1433%CPU (0avgtext+0avgdata 3868maxresident)k
+0inputs+8000outputs (0major+207416minor)pagefaults 0swaps
+three-step-sampling : 970 / 1000
+76.20user 2.56system 0:05.07elapsed 1552%CPU (0avgtext+0avgdata 3864maxresident)k
+0inputs+8000outputs (0major+206516minor)pagefaults 0swaps
 three-step-sampling : 982 / 1000
-575.50user 0.65system 0:37.74elapsed 1526%CPU (0avgtext+0avgdata 3872maxresident)k
-0inputs+8024outputs (0major+209788minor)pagefaults 0swaps
+667.95user 3.54system 0:43.51elapsed 1543%CPU (0avgtext+0avgdata 3852maxresident)k
+0inputs+8008outputs (0major+202900minor)pagefaults 0swaps
 three-step-sampling : 987 / 1000
-5734.59user 0.96system 6:15.28elapsed 1528%CPU (0avgtext+0avgdata 3876maxresident)k
-0inputs+8128outputs (0major+202259minor)pagefaults 0swaps
+5787.46user 1.84system 6:17.95elapsed 1531%CPU (0avgtext+0avgdata 3860maxresident)k
+0inputs+8024outputs (0major+203370minor)pagefaults 0swaps
 three-step-sampling : 988 / 1000
-111.11user 0.87system 0:07.17elapsed 1562%CPU (0avgtext+0avgdata 3876maxresident)k
-0inputs+8000outputs (0major+203609minor)pagefaults 0swaps
+53.76user 0.99system 0:03.48elapsed 1571%CPU (0avgtext+0avgdata 3872maxresident)k
+0inputs+8000outputs (0major+202721minor)pagefaults 0swaps
+three-step-sampling : 965 / 1000
+109.53user 0.89system 0:07.05elapsed 1565%CPU (0avgtext+0avgdata 3864maxresident)k
+0inputs+8000outputs (0major+206702minor)pagefaults 0swaps
 three-step-sampling : 986 / 1000
-678.83user 0.68system 0:45.13elapsed 1505%CPU (0avgtext+0avgdata 3884maxresident)k
-0inputs+8048outputs (0major+201751minor)pagefaults 0swaps
+670.51user 0.61system 0:44.37elapsed 1512%CPU (0avgtext+0avgdata 3868maxresident)k
+0inputs+8008outputs (0major+206957minor)pagefaults 0swaps
 three-step-sampling : 987 / 1000
-6385.23user 0.89system 7:04.68elapsed 1503%CPU (0avgtext+0avgdata 3880maxresident)k
-0inputs+8104outputs (0major+200306minor)pagefaults 0swaps
+6332.43user 1.10system 7:00.23elapsed 1507%CPU (0avgtext+0avgdata 3868maxresident)k
+0inputs+8064outputs (0major+206336minor)pagefaults 0swaps
 three-step-sampling : 990 / 1000

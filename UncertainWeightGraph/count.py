@@ -11,5 +11,7 @@ for testcase in testcases :
     t = open(sys.argv[1] + '/output/' + testcase, 'r')    
     if b.readline() == t.readline() : 
         cnt += 1
+    # else :
+    #    print(testcase)
 
 print(sys.argv[1] + ' : ' + str(cnt) + ' / ' + str(len(testcases)))
